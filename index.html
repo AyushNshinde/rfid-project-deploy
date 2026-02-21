@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID | Attendance Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="animate-in">
+            <div class="logo">
+                <i class="fas fa-id-card-clip"></i> RFID.LOGS
+            </div>
+            <div id="current-time-display" style="color: var(--text-dim); font-size: 0.9rem;"></div>
+        </header>
+
+        <section class="stats-bar animate-in" style="animation-delay: 0.1s;">
+            <div class="stat-item">
+                <div class="stat-label">Total Scans</div>
+                <div class="stat-value" id="total-scans">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Active Users</div>
+                <div class="stat-value" id="active-users">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Today Presence</div>
+                <div class="stat-value" id="today-presence">0</div>
+            </div>
+        </section>
+
+        <main class="dashboard-grid">
+            <!-- RFID Scanner Simulator -->
+            <aside class="card animate-in" style="animation-delay: 0.2s;">
+                <h2><i class="fas fa-rss" style="color: var(--primary);"></i> RFID Simulator</h2>
+                <form id="attendance-form" class="simulator-form">
+                    <div class="input-group">
+                        <label for="student-name">Full Name</label>
+                        <input type="text" id="student-name" placeholder="Enter name..." required>
+                    </div>
+                    <div class="input-group">
+                        <label for="rfid-uid">RFID UID (Simulated)</label>
+                        <input type="text" id="rfid-uid" placeholder="SCN-XXXX-XXXX" value="SCN-4921-2026" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="scan-type">Scan Action</label>
+                        <select id="scan-type">
+                            <option value="Check-In">Check-In</option>
+                            <option value="Check-Out">Check-Out</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="scan-btn">
+                        <i class="fas fa-fingerprint"></i> Simulate Scan
+                    </button>
+                </form>
+            </aside>
+
+            <!-- Attendance Logs -->
+            <section class="card animate-in" style="animation-delay: 0.3s;">
+                <h2><i class="fas fa-list-check" style="color: var(--secondary);"></i> Attendance Logs</h2>
+                
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" id="search-name" placeholder="Search by name...">
+                    </div>
+                    <div class="date-filter">
+                        <input type="date" id="filter-date">
+                    </div>
+                    <button id="clear-filters" style="padding: 0.75rem 1rem; margin: 0; background: var(--card-bg); border: 1px solid var(--card-border);">
+                        <i class="fas fa-rotate-left"></i>
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table id="logs-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>UID</th>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-body">
+                            <!-- Logs will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="no-data" style="display: none; text-align: center; padding: 2rem; color: var(--text-dim);">
+                    <i class="fas fa-folder-open" style="display: block; font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    No attendance records found.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
