@@ -31,15 +31,17 @@ class AttendanceSystem {
 
     handleScan() {
         const nameInput = document.getElementById('student-name');
+        const batchInput = document.getElementById('batch-select');
         const uidInput = document.getElementById('rfid-uid');
         const typeInput = document.getElementById('scan-type');
 
         const now = new Date();
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        
+
         const newLog = {
             id: Date.now(),
             name: nameInput.value,
+            batch: batchInput.value,
             uid: uidInput.value,
             date: now.toISOString().split('T')[0],
             day: days[now.getDay()],
@@ -55,13 +57,13 @@ class AttendanceSystem {
         // Reset name only for next scan
         nameInput.value = '';
         this.generateNewUID(); // Simulate a new card for next time
-        
+
         // Visual feedback
         const btn = document.getElementById('scan-btn');
         const originalText = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-check-circle"></i> Scanned Successfully!';
         btn.style.background = 'var(--success)';
-        
+
         setTimeout(() => {
             btn.innerHTML = originalText;
             btn.style.background = '';
@@ -90,7 +92,7 @@ class AttendanceSystem {
         });
 
         tbody.innerHTML = '';
-        
+
         if (filteredLogs.length === 0) {
             noData.style.display = 'block';
             return;
@@ -103,6 +105,7 @@ class AttendanceSystem {
             tr.className = 'animate-in';
             tr.innerHTML = `
                 <td style="font-weight: 500;">${log.name}</td>
+                <td><span style="color: var(--primary); font-weight: 600;">${log.batch || 'N/A'}</span></td>
                 <td style="font-family: monospace; color: var(--text-dim);">${log.uid}</td>
                 <td>${log.date}</td>
                 <td>${log.day}</td>
@@ -115,7 +118,7 @@ class AttendanceSystem {
 
     updateStats() {
         document.getElementById('total-scans').innerText = this.logs.length;
-        
+
         const uniqueUsers = [...new Set(this.logs.map(log => log.uid))].length;
         document.getElementById('active-users').innerText = uniqueUsers;
 
